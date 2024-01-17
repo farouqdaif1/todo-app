@@ -22,10 +22,11 @@ const signUp: RequestHandler = async (req, res) => {
         }
         const passwordHashed = await bcrypt.hash(password, 10);
 
-        await prisma.user.create({ data: { username: username, email: email, password: passwordHashed } });
-        res.status(200).json({ message: 'User created successfully' });
+        const newUser = await prisma.user.create({ data: { username: username, email: email, password: passwordHashed } });
+        const token = jwt.sign({ id: newUser.id, email: newUser.email }, env.JWT_SECRET);
+        res.status(201).json({ message: 'User created successfully', newUser, token });
     } catch (error) {
-        res.status(200).json({ message: 'cant create user' + error });
+        res.status(200).json({ message: 'cant create user', error });
     }
 }
 
@@ -44,8 +45,8 @@ const signIn: RequestHandler = async (req, res) => {
         if (!isPasswordCorrect) {
             return res.status(400).json({ message: 'password incorrect' });
         }
-        const token = jwt.sign({ id: foundUser.id }, env.JWT_SECRET);
-        res.status(200).json({ message: 'User logged in successfully', token });
+        const token = jwt.sign({ id: foundUser.id, email: foundUser.email }, env.JWT_SECRET);
+        res.status(200).json({ message: 'User logged in successfully', token, foundUser });
     } catch (error) {
         res.status(500).json({ message: 'Something went wrong' });
     }
