@@ -5,8 +5,8 @@ import jwt from 'jsonwebtoken';
 import env from '../util/validateEnv';
 
 const prisma = new PrismaClient();
-
-const SignUp: RequestHandler = async (req, res) => {
+//sign up
+const signUp: RequestHandler = async (req, res) => {
     const { username, email, password } = req.body;
     try {
         if (!username || !password || !email) {
@@ -30,8 +30,7 @@ const SignUp: RequestHandler = async (req, res) => {
 }
 
 //sign in
-
-const SignIn: RequestHandler = async (req, res) => {
+const signIn: RequestHandler = async (req, res) => {
     const { username, password } = req.body;
     try {
         if (!username || !password) {
@@ -52,4 +51,5 @@ const SignIn: RequestHandler = async (req, res) => {
     }
 }
 
-export { SignUp, SignIn };
+
+export { signUp, signIn };

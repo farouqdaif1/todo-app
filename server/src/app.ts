@@ -1,9 +1,10 @@
 import 'dotenv/config';
 import express from 'express';
-import { SignUp, SignIn } from './Controllers/UserAuth';
+import userRoutes from "./routes/user";
+
 const app = express();
 app.use(express.json());
-app.post('/signIn', SignIn);
-app.post('/signUp', SignUp);
+app.use("/api/users", userRoutes);
+
 
 export default app;
