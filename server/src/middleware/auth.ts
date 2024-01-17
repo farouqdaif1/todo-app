@@ -1,9 +1,15 @@
+import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import env from '../util/validateEnv';
-//wants to see todo an delete it
-const auth = async (req, res, next) => {
+interface RequestWithUserId extends Request {
+    userId?: string;
+  }
+const auth = async (req: RequestWithUserId, res: Response, next: NextFunction) => {
     try {
-        const token = req.headers.authorization.split(" ")[1];
+        const token = req.headers.authorization?.split(" ")[1];
+        if (!token) {
+            throw new Error("Token not found");
+        }
         const decodedData = jwt.verify(token, env.JWT_SECRET) as JwtPayload;
         req.userId = decodedData?.id;
         next();
@@ -11,4 +17,5 @@ const auth = async (req, res, next) => {
         res.status(500).json({ message: 'Something went wrong' });
     }
 };
+
 export default auth;
