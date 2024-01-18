@@ -3,10 +3,12 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import env from '../util/validateEnv';
 interface RequestWithUserId extends Request {
     userId?: string;
-  }
+}
 const auth = async (req: RequestWithUserId, res: Response, next: NextFunction) => {
     try {
-        const token = req.headers.authorization?.split(" ")[1];
+        const token = req.headers.authorization
+        console.log(token)
+
         if (!token) {
             throw new Error("Token not found");
         }
@@ -14,7 +16,7 @@ const auth = async (req: RequestWithUserId, res: Response, next: NextFunction) =
         req.userId = decodedData?.id;
         next();
     } catch (error) {
-        res.status(500).json({ message: 'Something went wrong' });
+        res.status(500).json({ message: 'Authorization required', error });
     }
 };
 
