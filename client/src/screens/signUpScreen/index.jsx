@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Pressable, Text, View, StyleSheet, TextInput } from "react-native";
+import { useDispatch } from 'react-redux';
+import { signup } from '../../../store/actions/authActions.js';
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const dispatch = useDispatch();
 
   const navigateToSignIn = () => {
     navigation.navigate("SignIn");
@@ -14,10 +17,12 @@ const SignUpScreen = () => {
 
   const handleSignUp = () => {
     // Implement your sign-up logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Confirm Password:", username);
+    const formData = { email, password, username };
+    console.log("Email:", formData);
     // You can add registration/authentication logic here
+    dispatch(signup(formData))
+
+    // navigation.navigate("Home");
   };
 
   return (
@@ -75,7 +80,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 10,
   },
-  
 });
 
 export default SignUpScreen;

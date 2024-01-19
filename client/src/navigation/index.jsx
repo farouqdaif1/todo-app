@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import AuthStackNavigator from "./auth-stack-navigator";
 import HomeStackNavigator from "./home-stack-navigator";
 const Navigation = () => {
-  const user = true;
+  const user = false;
 
   return (
     <NavigationContainer>

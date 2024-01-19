@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API = axios.create({ baseURL: 'http://localhost:5000/api' });
+const API = axios.create({ baseURL: 'http://localhost:3000/api' });
 export const fetchTodo = () => API.get('/todlist');
 export const createTodo = (newTodo) => API.post('/todlist', newTodo);
 export const deleteTodo = (id) => API.delete(`/todlist/${id}`);

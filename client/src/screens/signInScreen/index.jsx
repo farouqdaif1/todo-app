@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Pressable, Text, View, StyleSheet, TextInput } from "react-native";
-
+import { useDispatch } from 'react-redux';
+import { signin } from '../../../store/actions/authActions.js';
 const SignInScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const dispatch = useDispatch();
   const navigateToSignUp = () => {
     navigation.navigate("SignUp");
   };
 
   const handleSignIn = () => {
     // Implement your sign-in logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
+    const formData = { email, password};
     // You can add authentication logic here
+        dispatch(signin(formData))
+
   };
 
   return (

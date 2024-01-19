@@ -32,12 +32,12 @@ const signUp: RequestHandler = async (req, res) => {
 
 //sign in
 const signIn: RequestHandler = async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     try {
-        if (!username || !password) {
+        if (!email || !password) {
             return res.status(400).json({ message: 'Parameters missing' });
         }
-        const foundUser = await prisma.user.findFirst({ where: { username: username } });
+        const foundUser = await prisma.user.findFirst({ where: { email: email } });
         if (!foundUser) {
             return res.status(400).json({ message: 'Username  incorrect' });
         }
