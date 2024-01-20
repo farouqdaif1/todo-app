@@ -1,17 +1,9 @@
 import axios from 'axios';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const API = axios.create({ baseURL: 'http://localhost:3000/api' });
-const storedUserJSON = await AsyncStorage.getItem("profile");
-const storedUser = JSON.parse(storedUserJSON);
-const token = storedUser?.token;
 
-const axiosConfig = {
-  headers: {
-    'Authorization': `${token}`,
-    'Content-Type': 'application/json', // Adjust content type as needed
-  },
-};
+
+
 export const fetchTodo = (id, token) => {
   const axiosConfig = {
     headers: {

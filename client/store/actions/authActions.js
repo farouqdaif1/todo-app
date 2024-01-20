@@ -20,7 +20,7 @@ export const signup = (formData) => async (dispatch) => {
     console.log(error);
   }
 };
-export const logout = () => async (dispatch) => {
+export const logout = () =>  (dispatch) => {
   try {
     dispatch({ type: LOGOUT });
   } catch (error) {
