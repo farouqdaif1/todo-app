@@ -18,7 +18,7 @@ const createTodo: RequestHandler = async (req, res) => {
     }
 };
 const getTodos: RequestHandler = async (req, res) => {
-    const userId = req.body.userId;
+    const { userId } = req.body;
     try {
         const todos = await prisma.todo.findMany({
             where: {

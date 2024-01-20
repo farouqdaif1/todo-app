@@ -20,7 +20,7 @@ const Navigation = () => {
   };
   useEffect(() => {
     loadUserFromStorage();
-  }, []);
+  }, [user]);
 
   return (
     <NavigationContainer>

@@ -16,7 +16,7 @@ const SignInScreen = () => {
     // Implement your sign-in logic here
     const formData = { email, password};
     // You can add authentication logic here
-        dispatch(signin(formData))
+    dispatch(signin(formData))
 
   };
 

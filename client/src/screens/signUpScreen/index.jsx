@@ -18,7 +18,6 @@ const SignUpScreen = () => {
   const handleSignUp = () => {
     // Implement your sign-up logic here
     const formData = { email, password, username };
-    console.log("Email:", formData);
     // You can add registration/authentication logic here
     dispatch(signup(formData))
 

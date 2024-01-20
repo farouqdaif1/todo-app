@@ -9,7 +9,11 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
-import { addTodo, fetchTodos,deleteTodo } from "../../../store/actions/todoActions";
+import {
+  addTodo,
+  fetchTodos,
+  deleteTodo,
+} from "../../../store/actions/todoActions";
 import { useSelector } from "react-redux";
 
 const TodoItem = ({ elementId, text }) => {
@@ -37,14 +41,14 @@ const HomeScreen = () => {
   const [userId, setUserId] = useState(null);
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todo);
-  const clear = () => { 
+  const clear = () => {
     setTitle("");
     setCompeleted(false);
   };
   const handelAddTodo = () => {
     const task = { title, completed, userId };
     dispatch(addTodo(task));
-    clear()
+    clear();
   };
   const loadUserFromStorage = async () => {
     try {
@@ -58,8 +62,14 @@ const HomeScreen = () => {
 
   useEffect(() => {
     loadUserFromStorage();
-    dispatch(fetchTodos());
   }, []);
+  useEffect(() => {
+    if (userId) {
+      console.log("userId", userId);
+
+      dispatch(fetchTodos(userId));
+    }
+  }, [userId]);
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
@@ -74,7 +84,9 @@ const HomeScreen = () => {
       <FlatList
         data={todos}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <TodoItem  elementId={item.id}  text={item.title} />}
+        renderItem={({ item }) => (
+          <TodoItem elementId={item.id} text={item.title} />
+        )}
       />
     </View>
   );

@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 router.post("/create-todo",auth, TodoController.createTodo);
-router.get("/",auth ,TodoController.getTodos);
+router.get("/all" ,TodoController.getTodos);
 router.delete("/:id", auth,TodoController.deleteTodo);
 
 

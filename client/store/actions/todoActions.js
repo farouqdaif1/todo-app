@@ -23,12 +23,11 @@ export const deleteTodo = (id) => async (dispatch) => {
         console.log(error);
     }
 };
-export const fetchTodos = () => async (dispatch) => {
+export const fetchTodos = (userId) => async (dispatch) => {
     try {
-        const { data } = await api.fetchTodo();
-        const { todos } = data;
+        const { data } = await api.fetchTodo(userId);
+         const { todos } = data;
         dispatch({ type: FETCH_ALL_TODO, payload: todos });
-
     } catch (error) {
         console.log(error);
     }
