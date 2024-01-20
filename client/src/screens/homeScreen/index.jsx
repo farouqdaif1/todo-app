@@ -61,10 +61,16 @@ const HomeScreen = () => {
     try {
       const storedUserJSON = await AsyncStorage.getItem("profile");
       const storedUser = JSON.parse(storedUserJSON);
-      setUserId(storedUser.foundUser.id);
-      setToken(storedUser.token);
-      // console.log("token", storedUser.token);
-    } catch (error) {
+      console.log("storedUser", storedUser);
+      if (storedUser.foundUser) {
+        setUserId(storedUser.foundUser.id);
+        setToken(storedUser.token);
+      }
+        if(storedUser.newUser){
+          setUserId(storedUser.newUser.id);
+          setToken(storedUser.token);
+        }
+        } catch (error) {
       console.error("Error loading user from AsyncStorage:", error);
     }
   };
