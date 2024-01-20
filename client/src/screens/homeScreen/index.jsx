@@ -16,14 +16,15 @@ import {
 } from "../../../store/actions/todoActions";
 import { useSelector } from "react-redux";
 
-const TodoItem = ({ text }) => {
+const TodoItem = ({ element,text,token }) => {
   const dispatch = useDispatch();
-  const [id, setId] = useState(null);
+  // const [id, setId] = useState(null);
 
-  const handleDeleteTodo = () => {
-    // dispatch(deleteTodo(elementId));
-    console.log(id);
+  const handleDeleteTodo = (element,token) => {
+    dispatch(deleteTodo(element,token));
+    console.log(element);
   };
+
   return (
     <View style={styles.item}>
       <Text style={styles.item_text}>{text}</Text>
@@ -32,8 +33,7 @@ const TodoItem = ({ text }) => {
         title="delete"
         color="#ff0000" // Set the color based on your design
         onPress={() => {
-          setId(elementId);
-          handleDeleteTodo;
+          handleDeleteTodo(element,token);
         }}
       />
     </View>
@@ -91,7 +91,7 @@ const HomeScreen = () => {
       <FlatList
         data={todos}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <TodoItem text={item.title} />}
+        renderItem={({ item }) => <TodoItem token={token} element={item.id} text={item.title} />}
       />
     </View>
   );

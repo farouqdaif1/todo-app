@@ -15,9 +15,9 @@ export const addTodo = (task, token) => async (dispatch) => {
     }
 };
 
-export const deleteTodo = (id) => async (dispatch) => {
+export const deleteTodo = (id,token) => async (dispatch) => {
     try {
-        await api.deleteTodo(id);
+        await api.deleteTodo(id,token);
         dispatch({ type: DELETE_TODO, payload: id });
 
     } catch (error) {

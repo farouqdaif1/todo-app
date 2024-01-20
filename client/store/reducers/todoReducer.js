@@ -10,7 +10,10 @@ const todoReducer = (todos = [], action) => {
         case actionType.UPDATE_TODO:
             return todos.map((todo) => (todo._id === action.payload._id ? action.payload : todo));
         case actionType.DELETE_TODO:
-            return todos.filter((todo) => todo._id !== action.payload);
+            console.log("delete todo reducer", todos)
+            console.log("action.payload", action.payload);
+            return todos.filter((todo) => todo.id !== action.payload);
+
         default:
             return todos;
     }
