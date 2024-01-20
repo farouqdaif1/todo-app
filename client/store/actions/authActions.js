@@ -1,4 +1,4 @@
-import { AUTH } from '../constants/actionTypes';
+import { AUTH ,LOGOUT} from '../constants/actionTypes';
 import * as api from '../api/index.js';
 
 export const signin = (formData) => async (dispatch) => {
@@ -20,3 +20,10 @@ export const signup = (formData) => async (dispatch) => {
     console.log(error);
   }
 };
+export const logout = () => async (dispatch) => {
+  try {
+    dispatch({ type: LOGOUT });
+  } catch (error) {
+    console.log(error);
+  }
+}

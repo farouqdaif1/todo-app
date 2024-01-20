@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
-app.use("/api/todlist", todosRoutes);
+app.use("/api/todolist", todosRoutes);
 
 
 

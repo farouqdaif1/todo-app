@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,16 +7,19 @@ import {
   FlatList,
   StyleSheet,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../../../store/actions/todoActions";
 
 const TodoItem = ({ text }) => {
-  const deleteTodo = () => {};
+  const handleDeleteTodo = () => {};
   return (
     <View style={styles.item}>
       <Text style={styles.item_text}>{text}</Text>
       <Button
         style={styles.item_btn}
         title="delete"
-        onPress={deleteTodo}
+        onPress={handleDeleteTodo}
         color="#ff0000" // Set the color based on your design
       />
     </View>
@@ -25,14 +28,27 @@ const TodoItem = ({ text }) => {
 
 const HomeScreen = () => {
   const [text, setText] = useState("");
+  const [completed, setCompeleted] = useState(false);
+  const [userId, setUserId] = useState(null);
   const [todos, setTodos] = useState([]);
-
-  const addTodo = () => {
-    if (text.trim() !== "") {
-      setTodos([...todos, { id: Date.now().toString(), text }]);
-      setText("");
+  const dispatch = useDispatch();
+  const handelAddTodo = () => {
+    const task = { text, completed, userId };
+    dispatch(addTodo(task));
+  };
+  const loadUserFromStorage = async () => {
+    try {
+      const storedUserJSON = await AsyncStorage.getItem("profile");
+      const storedUser = JSON.parse(storedUserJSON);
+      setUserId(storedUser.foundUser.id);
+    } catch (error) {
+      console.error("Error loading user from AsyncStorage:", error);
     }
   };
+  useEffect(() => {
+    loadUserFromStorage();
+  }, []);
+  const handelFetchTodo = () => {};
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
@@ -42,7 +58,7 @@ const HomeScreen = () => {
           value={text}
           onChangeText={(value) => setText(value)}
         />
-        <Button title="Add" onPress={addTodo} />
+        <Button title="Add" onPress={handelAddTodo} />
       </View>
       <FlatList
         data={todos}
