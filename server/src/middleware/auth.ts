@@ -5,9 +5,9 @@ interface RequestWithUserId extends Request {
     userId?: string;
 }
 const auth = async (req: RequestWithUserId, res: Response, next: NextFunction) => {
+    console.log(req.headers);
     try {
         const token = req.headers.authorization
-        console.log( req.headers)
         if (!token) {
             throw new Error("Token not found");
         }
