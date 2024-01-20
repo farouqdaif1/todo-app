@@ -1,22 +1,23 @@
 import { CREATE_TODO, DELETE_TODO, UPDATE_TODO, FETCH_ALL_TODO } from '../constants/actionTypes';
 import * as api from '../api/index.js';
 
+
 export const addTodo = (task) => async (dispatch) => {
     try {
-        console.log(task);
 
         const { data } = await api.createTodo(task);
-        dispatch({ type: CREATE_TODO, data });
+        const { todo } = data;
+        dispatch({ type: CREATE_TODO, payload: todo });
 
     } catch (error) {
         console.log(error);
     }
 };
 
-export const deleteTodo = (task) => async (dispatch) => {
+export const deleteTodo = (id) => async (dispatch) => {
     try {
-        const { data } = await api.deleteTodo(deleteTodo);
-        dispatch({ type: DELETE_TODO, data });
+        await api.deleteTodo(id);
+        dispatch({ type: DELETE_TODO, payload: id });
 
     } catch (error) {
         console.log(error);
@@ -25,7 +26,8 @@ export const deleteTodo = (task) => async (dispatch) => {
 export const fetchTodos = () => async (dispatch) => {
     try {
         const { data } = await api.fetchTodo();
-        dispatch({ type: FETCH_ALL_TODO, data });
+        const { todos } = data;
+        dispatch({ type: FETCH_ALL_TODO, payload: todos });
 
     } catch (error) {
         console.log(error);

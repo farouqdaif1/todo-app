@@ -9,32 +9,42 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
-import { addTodo } from "../../../store/actions/todoActions";
+import { addTodo, fetchTodos,deleteTodo } from "../../../store/actions/todoActions";
+import { useSelector } from "react-redux";
 
-const TodoItem = ({ text }) => {
-  const handleDeleteTodo = () => {};
+const TodoItem = ({ elementId, text }) => {
+  const dispatch = useDispatch();
+
+  // const handleDeleteTodo = (elementId) => {
+  //   dispatch(deleteTodo(elementId));
+  // };
   return (
     <View style={styles.item}>
       <Text style={styles.item_text}>{text}</Text>
       <Button
         style={styles.item_btn}
         title="delete"
-        onPress={handleDeleteTodo}
         color="#ff0000" // Set the color based on your design
+        // onPress={handleDeleteTodo(elementId)}
       />
     </View>
   );
 };
 
 const HomeScreen = () => {
-  const [text, setText] = useState("");
+  const [title, setTitle] = useState("");
   const [completed, setCompeleted] = useState(false);
   const [userId, setUserId] = useState(null);
-  const [todos, setTodos] = useState([]);
   const dispatch = useDispatch();
+  const todos = useSelector((state) => state.todo);
+  const clear = () => { 
+    setTitle("");
+    setCompeleted(false);
+  };
   const handelAddTodo = () => {
-    const task = { text, completed, userId };
+    const task = { title, completed, userId };
     dispatch(addTodo(task));
+    clear()
   };
   const loadUserFromStorage = async () => {
     try {
@@ -45,25 +55,26 @@ const HomeScreen = () => {
       console.error("Error loading user from AsyncStorage:", error);
     }
   };
+
   useEffect(() => {
     loadUserFromStorage();
+    dispatch(fetchTodos());
   }, []);
-  const handelFetchTodo = () => {};
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           placeholder="Add a new todo"
-          value={text}
-          onChangeText={(value) => setText(value)}
+          value={title}
+          onChangeText={(value) => setTitle(value)}
         />
         <Button title="Add" onPress={handelAddTodo} />
       </View>
       <FlatList
         data={todos}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <TodoItem text={item.text} />}
+        renderItem={({ item }) => <TodoItem  elementId={item.id}  text={item.title} />}
       />
     </View>
   );

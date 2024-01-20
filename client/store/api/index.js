@@ -1,7 +1,18 @@
 import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const API = axios.create({ baseURL: 'http://localhost:3000/api' });
-export const fetchTodo = () => API.get('/todlist');
-export const createTodo = (newTodo) => API.post('/todolist/create-todo', newTodo);
-export const deleteTodo = (id) => API.delete(`/todolist/${id}`);
+const storedUserJSON = await AsyncStorage.getItem("profile");
+const storedUser = JSON.parse(storedUserJSON);
+const token = storedUser?.token;
+const axiosConfig = {
+    headers: {
+        'Authorization': `${token}`,
+        'Content-Type': 'application/json', // Adjust content type as needed
+    },
+};
+export const fetchTodo = () => API.get('/todolist', axiosConfig);
+export const createTodo = (newTodo) => API.post('/todolist/create-todo', newTodo, axiosConfig);
+export const deleteTodo = (id) => API.delete(`/todolist/${id}`, axiosConfig);
 export const signIn = (formData) => API.post('/users/login', formData);
 export const signUp = (formData) => API.post('/users/signup', formData);
