@@ -16,12 +16,14 @@ import {
 } from "../../../store/actions/todoActions";
 import { useSelector } from "react-redux";
 
-const TodoItem = ({ elementId, text }) => {
+const TodoItem = ({ text }) => {
   const dispatch = useDispatch();
+  const [id, setId] = useState(null);
 
-  // const handleDeleteTodo = (elementId) => {
-  //   dispatch(deleteTodo(elementId));
-  // };
+  const handleDeleteTodo = () => {
+    // dispatch(deleteTodo(elementId));
+    console.log(id);
+  };
   return (
     <View style={styles.item}>
       <Text style={styles.item_text}>{text}</Text>
@@ -29,25 +31,30 @@ const TodoItem = ({ elementId, text }) => {
         style={styles.item_btn}
         title="delete"
         color="#ff0000" // Set the color based on your design
-        // onPress={handleDeleteTodo(elementId)}
+        onPress={() => {
+          setId(elementId);
+          handleDeleteTodo;
+        }}
       />
     </View>
   );
 };
 
 const HomeScreen = () => {
+  const dispatch = useDispatch();
+  const todos = useSelector((state) => state.todo);
   const [title, setTitle] = useState("");
   const [completed, setCompeleted] = useState(false);
   const [userId, setUserId] = useState(null);
-  const dispatch = useDispatch();
-  const todos = useSelector((state) => state.todo);
+  const [token, setToken] = useState(null);
+
   const clear = () => {
     setTitle("");
     setCompeleted(false);
   };
   const handelAddTodo = () => {
     const task = { title, completed, userId };
-    dispatch(addTodo(task));
+    dispatch(addTodo(task, token));
     clear();
   };
   const loadUserFromStorage = async () => {
@@ -55,6 +62,8 @@ const HomeScreen = () => {
       const storedUserJSON = await AsyncStorage.getItem("profile");
       const storedUser = JSON.parse(storedUserJSON);
       setUserId(storedUser.foundUser.id);
+      setToken(storedUser.token);
+      // console.log("token", storedUser.token);
     } catch (error) {
       console.error("Error loading user from AsyncStorage:", error);
     }
@@ -64,10 +73,8 @@ const HomeScreen = () => {
     loadUserFromStorage();
   }, []);
   useEffect(() => {
-    if (userId) {
-      console.log("userId", userId);
-
-      dispatch(fetchTodos(userId));
+    if (userId && token) {
+      dispatch(fetchTodos(userId, token));
     }
   }, [userId]);
   return (
@@ -84,9 +91,7 @@ const HomeScreen = () => {
       <FlatList
         data={todos}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TodoItem elementId={item.id} text={item.title} />
-        )}
+        renderItem={({ item }) => <TodoItem text={item.title} />}
       />
     </View>
   );

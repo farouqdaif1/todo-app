@@ -1,12 +1,11 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useDispatch } from "react-redux";
 import HomeScreen from "../screens/homeScreen";
-import AddTaskScreen from "../screens/addTaskScreen";
 import { Button, View } from "react-native";
 import { logout } from "../../store/actions/authActions";
 
 const Stack = createNativeStackNavigator();
-const HomeStackNavigator = () => {
+const HomeStackNavigator = ({user}) => {
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
@@ -28,7 +27,6 @@ const HomeStackNavigator = () => {
           ),
         }}
       />
-      <Stack.Screen name="AddTask" component={AddTaskScreen} />
     </Stack.Navigator>
   );
 };
