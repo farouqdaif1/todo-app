@@ -2,24 +2,7 @@
 
 <h1 align="center">Todo App</h1>
 <div align="center">
-  <h3>
-    <a href="https://main--image-uploader-fa.netlify.app/">
-      Demo
-    </a>
-    <span> | </span>
-    <a href="https://devchallenges.io/solutions/iuLSsyMZqVi5LTcZ2ENR">
-      Solution
-    </a>
-    <span> | </span>
-    <a href="https://devchallenges.io/challenges/O2iGT9yBd6xZBrOcVirx">
-      Challenge
-    </a>
-   <span> | </span>
-    <a href="https://my-splash-server.onrender.com/api/images">
-      API
-    </a>
-  </h3>
-</div>
+
 
 <!-- TABLE OF CONTENTS -->
 
